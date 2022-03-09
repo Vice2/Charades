@@ -1,5 +1,6 @@
 package se.bashar.charader
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -61,7 +62,9 @@ class TestActivity : AppCompatActivity() {
             val timerTextField = findViewById<TextView>(R.id.textView)
 
             override fun onTick(millisUntilFinished: Long) {
+                val beep = MediaPlayer.create(this@TestActivity, R.raw.beep_2)
 
+                beep.start()
                 timerTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
                 //imgAnime()
             }

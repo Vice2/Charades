@@ -30,7 +30,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ellipse" />
+        app:srcCompat="@drawable/red_ellipse" />
 
     <Button
         android:id="@+id/newGameButton"
@@ -42,6 +42,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/thewordTextView" />
+
+    <ImageView
+        android:id="@+id/blueImageView"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:layout_constraintBottom_toTopOf="@+id/thewordTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/blue_ellipse" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

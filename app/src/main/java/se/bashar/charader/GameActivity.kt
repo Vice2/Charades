@@ -1,12 +1,13 @@
 package se.bashar.charader
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import kotlin.random.Random
 
@@ -20,24 +21,15 @@ class GameActivity : AppCompatActivity() {
 
         lateinit var wordToGuess: String
         val theword = findViewById<TextView>(R.id.thewordTextView)
-        val img = findViewById<ImageView>(R.id.redImageView)
-        var alfa = 0f
-        var dura = 1000
+        val redImg = findViewById<ImageView>(R.id.redImageView)
+        val blueImg = findViewById<ImageView>(R.id.blueImageView)
         val newGameButton = findViewById<Button>(R.id.newGameButton)
 
-        /*
-        fun imgAnime()
-        {
-            img.alpha = alfa
-            img.animate().alpha(1f).duration = dura
-        }
-        */
-
         theword.text= "Tryck för att starta"
+        redImg.isVisible = false
+        blueImg.isVisible = true
 
-        newGameButton.setOnClickListener {
 
-        }
         theword.setOnClickListener {
             val randomIndex = Random.nextInt(0, WordObject.thewords.size)
             wordToGuess = WordObject.thewords[randomIndex]
@@ -45,27 +37,29 @@ class GameActivity : AppCompatActivity() {
 
             object : CountDownTimer(10000, 1000) {
 
-                val timerTextField = findViewById<TextView>(R.id.textView)
-
+                //val timerTextField = findViewById<TextView>(R.id.textView)
 
                 override fun onTick(millisUntilFinished: Long) {
                     //timerTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
-                    img.alpha = 0f
-                    img.animate().alpha(1f).duration = 1000
+                    blueImg.alpha = 0f
+                    blueImg.animate().alpha(1f).duration = 1000
                 }
 
                 override fun onFinish() {
-                    //timerTextField.setText("done!")
-                    //img.alpha = 0f
-                    //img.animate().alpha(1f).duration = 0
                     theword.text = "Tiden är ute!!"
                     theword.isClickable = false
+                    blueImg.isInvisible = false
+                    redImg.isVisible = true
                 }
             }.start()
         }
 
+        newGameButton.setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java)
+            finish()
+            startActivity(intent)
 
-
+        }
 
     }
 }
