@@ -14,42 +14,37 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    var blinkt: TextView? = null
-    var blinkb: Button? = null
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val blinkb : Button = findViewById(R.id.blinkb);
-        blinkt = findViewById(R.id.blinktext);
-
-
         val startButton: Button = findViewById(R.id.playButton)
+        val rulesText : TextView = findViewById(R.id.rulesTextview)
+        val theText =  "\n" +
+                "Regler för spelet\n" +
+                "\n" +
+                "Låt alla sitta i en ring. Varannan person är i samma lag.\n" +
+                "\n" +
+                "Målet med spelet är att få din lagkamrat att gissa ordet utan att använda något av nedanstående:\n" +
+                "-- Order\n" +
+                "-- En del av ordet\n" +
+                "-- Ord som rimmar\n" +
+                "\n" +
+                "Om ditt lag gissar ordet korrekt skicka enheten till personen till höger om dig (som tillhör det andra laget).\n" +
+                "\n" +
+                "Tryck på skärmen för att få nästa ord.\n" +
+                "Fortsätt att passera enheten tills timern tar slut.\n" +
+                "\n" +
+                "Teamet som håller enheten när timern tar slut förlorar.\n"
 
         startButton.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
             startActivity(intent)
         }
-        blinkb.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-        }
 
-        object : CountDownTimer(30000, 1000) {
+        rulesText.text = theText
 
-            val timerTextField = findViewById<TextView>(R.id.textView)
 
-            override fun onTick(millisUntilFinished: Long) {
-                timerTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
-            }
-
-            override fun onFinish() {
-                timerTextField.setText("done!")
-            }
-        }.start()
 
     }
 
