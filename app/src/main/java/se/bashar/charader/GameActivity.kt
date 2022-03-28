@@ -19,8 +19,7 @@ class GameActivity : AppCompatActivity() {
     var isRunning = false
     var timerCount = 300
     var blinkCount = 0
-    var blinkTarget = 20
-
+    var blinkTarget = 5
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +35,16 @@ class GameActivity : AppCompatActivity() {
         theword.text= "STARTA"
 
         mediaPlayer = MediaPlayer.create(this, R.raw.beginsound)
+
+        fun newGame() {
+            theword.setTextColor(Color.rgb(45,72,189))
+            val randomIndex = Random.nextInt(0, WordObject.thewords.size)
+            wordToGuess = WordObject.thewords[randomIndex]
+            theword.setText(wordToGuess)
+            isRunning = true
+            blinkTarget = 5
+            timerCount = 300
+        }
 
         object : CountDownTimer(1000000, 100) {
 
@@ -55,14 +64,18 @@ class GameActivity : AppCompatActivity() {
 
                     if (timerCount == 0)
                     {
+                        /*
                         theword.text = "Tiden är ute!!"
                         theword.isClickable = false
                         isRunning = false
+                         */
+                        onFinish()
                                            }
                 }
             }
 
             override fun onFinish() {
+                theword.setTextColor(Color.rgb(255,0,0))
                 theword.text = "Tiden är ute!!"
                 theword.isClickable = false
                 mediaPlayer.stop()
@@ -71,15 +84,14 @@ class GameActivity : AppCompatActivity() {
 
 
         theword.setOnClickListener {
+
             theword.setTextColor(Color.rgb(45,72,189))
             val randomIndex = Random.nextInt(0, WordObject.thewords.size)
             wordToGuess = WordObject.thewords[randomIndex]
             theword.setText(wordToGuess)
             isRunning = true
-            blinkTarget = 20
+            blinkTarget = 5
             timerCount = 300
-
-
         }
 
         newGameButton.setOnClickListener {
@@ -87,8 +99,8 @@ class GameActivity : AppCompatActivity() {
             finish()
             mediaPlayer.stop()
             startActivity(intent)
-
         }
 
     }
+
 }
