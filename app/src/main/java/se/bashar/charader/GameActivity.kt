@@ -15,6 +15,9 @@ import kotlin.random.Random
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityGameBinding
+    lateinit var mediaPlayer : MediaPlayer
+
+    lateinit var counttimer : CountDownTimer
 
     var isRunning = false
     var timerCount = 300
@@ -26,7 +29,7 @@ class GameActivity : AppCompatActivity() {
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var mediaPlayer : MediaPlayer? = null
+
         lateinit var wordToGuess: String
         val theword = binding.thewordTextView
         val newGameButton = binding.newGameButton
@@ -36,23 +39,14 @@ class GameActivity : AppCompatActivity() {
 
         mediaPlayer = MediaPlayer.create(this, R.raw.beginsound)
 
-        fun newGame() {
-            theword.setTextColor(Color.rgb(45,72,189))
-            val randomIndex = Random.nextInt(0, WordObject.thewords.size)
-            wordToGuess = WordObject.thewords[randomIndex]
-            theword.setText(wordToGuess)
-            isRunning = true
-            blinkTarget = 5
-            timerCount = 300
-        }
-
-        object : CountDownTimer(1000000, 100) {
+        counttimer = object : CountDownTimer(1000000, 100) {
 
            override fun onTick(millisUntilFinished: Long) {
                 //timerTextField.setText("seconds remaining: " + millisUntilFinished / 1000)
                 if(isRunning)
                 {
                     timerCount = timerCount - 1
+                    /*
                     blinkCount = blinkCount + 1
                     if (blinkCount == blinkTarget)
                     {
@@ -61,16 +55,14 @@ class GameActivity : AppCompatActivity() {
 
                         mediaPlayer.start()
                     }
-
+                    */
                     if (timerCount == 0)
                     {
-                        /*
+                        theword.setTextColor(Color.rgb(255,255,0))
                         theword.text = "Tiden är ute!!"
                         theword.isClickable = false
                         isRunning = false
-                         */
-                        onFinish()
-                                           }
+                    }
                 }
             }
 
@@ -79,28 +71,50 @@ class GameActivity : AppCompatActivity() {
                 theword.text = "Tiden är ute!!"
                 theword.isClickable = false
                 mediaPlayer.stop()
+                isRunning = false
             }
         }.start()
 
-
         theword.setOnClickListener {
+
+            if(isRunning == false)
+            {
+                mediaPlayer = MediaPlayer.create(this, R.raw.beginsound)
+                mediaPlayer.start()
+            }
 
             theword.setTextColor(Color.rgb(45,72,189))
             val randomIndex = Random.nextInt(0, WordObject.thewords.size)
             wordToGuess = WordObject.thewords[randomIndex]
             theword.setText(wordToGuess)
             isRunning = true
-            blinkTarget = 5
-            timerCount = 300
+            //blinkTarget = 5
+            //timerCount = 300
         }
 
         newGameButton.setOnClickListener {
+            /*
             val intent = Intent(this, GameActivity::class.java)
             finish()
             mediaPlayer.stop()
             startActivity(intent)
+
+             */
+
+            isRunning = false
+            timerCount = 300
+            blinkCount = 0
+            blinkTarget = 5
+            mediaPlayer.stop()
+            mediaPlayer.seekTo(0)
+            theword.setText("Start")
         }
 
     }
 
+    override fun onStop() {
+        super.onStop()
+        mediaPlayer.stop()
+
+    }
 }
